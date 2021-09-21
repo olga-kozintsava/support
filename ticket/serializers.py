@@ -3,10 +3,16 @@ from ticket.models import Ticket
 
 
 class TicketSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Ticket
         fields = ('id', 'author', 'status', 'text')
+        read_only_fields = ('id', 'author', 'text')
 
-    def create(self, validated_data):
-        return Ticket.objects.create(**validated_data)
 
+class UserTicketSerializer(serializers.ModelSerializer):
+    text = serializers.CharField(required=True)
+
+    class Meta:
+        model = Ticket
+        fields = ('text',)

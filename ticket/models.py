@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from support import settings
 
@@ -10,11 +11,11 @@ class Ticket(models.Model):
         FROZEN = 'frozen'
 
     author = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        get_user_model(),
         on_delete=models.CASCADE
     )
     status = models.CharField(
-        max_length=10,
+        max_length=8,
         choices=TicketStatus.choices,
         default=TicketStatus.UNSOLVED
     )
