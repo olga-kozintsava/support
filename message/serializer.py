@@ -11,10 +11,7 @@ class MessageSerializer(ModelSerializer):
         model = Message
         fields = ('ticket', 'author', 'message', 'sent_at')
 
-    def get_author(self, obj):
+    @staticmethod
+    def get_author(obj):
         return obj.author.username
-
-    # def create(self, validated_data):
-    #     validated_data['author'] = self.context['author']
-    #     return super().create(validated_data)
 
