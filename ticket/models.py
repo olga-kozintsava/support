@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-from support import settings
 
 
 class Ticket(models.Model):
@@ -19,8 +18,11 @@ class Ticket(models.Model):
         choices=TicketStatus.choices,
         default=TicketStatus.UNSOLVED
     )
-    text = models.TextField()
+    task = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['created_at']
+
+    def __str__(self):
+        return f'{self.author.username} - {self.created_at.strftime("%d/%m/%Y %H:%M:%S")}'

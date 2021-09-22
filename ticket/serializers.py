@@ -1,18 +1,26 @@
 from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
+
+from message.serializer import MessageSerializer
 from ticket.models import Ticket
 
 
-class TicketSerializer(serializers.ModelSerializer):
+class TicketSerializer(ModelSerializer):
+    messages = MessageSerializer(many=True)
 
     class Meta:
         model = Ticket
-        fields = ('id', 'author', 'status', 'text')
-        read_only_fields = ('id', 'author', 'text')
+        fields = ('id', 'author', 'status', 'task', 'messages')
+        read_only_fields = ('id', 'author', 'task', 'messages')
 
 
-class UserTicketSerializer(serializers.ModelSerializer):
-    text = serializers.CharField(required=True)
+class UserTicketSerializer(ModelSerializer):
+    task = serializers.CharField(required=True)
 
     class Meta:
         model = Ticket
-        fields = ('text',)
+        fields = ('task',)
+
+    def create(self, validated_data):
+        validated_data['author'] = self.context['author']
+        return super().create(validated_data)
