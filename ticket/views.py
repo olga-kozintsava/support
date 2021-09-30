@@ -10,7 +10,7 @@ from ticket.serializers import TicketSerializer, UserTicketSerializer
 
 class TicketViewSet(ModelViewSet):
     queryset = Ticket.objects.all().prefetch_related('messages')
-    permission_classes = [IsAuthenticated, IsAdminOrPostOnly]
+    # permission_classes = [IsAuthenticated, IsAdminOrPostOnly]
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
